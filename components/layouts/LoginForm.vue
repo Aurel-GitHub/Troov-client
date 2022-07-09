@@ -83,7 +83,8 @@
           v-else
           type="submit"
           :disabled="!stateEmail || !statePassword || !createAccountFieldsValid"
-          >Inscription</b-button
+          @click="createAccount"
+          >Créer un compte</b-button
         >
 
         <small v-if="mode === 'login'" class="ml-3" @click="switchToRegister()">
@@ -123,21 +124,15 @@ export default {
     stateEmail() {
       return this.form.email.includes('@');
     },
-    // eslint-disable-next-line vue/return-in-computed-property
     invalidFeedbackEmail() {
       if (!this.form.email.includes('@') && this.form.email) {
         return 'Email incorrect';
+      } else {
+        return '';
       }
     },
-    // eslint-disable-next-line vue/return-in-computed-property
     createAccountFieldsValid() {
       if (this.mode === 'register') {
-        console.log(
-          'regi',
-          this.mode,
-          this.form.firstname.length,
-          this.form.lastname.length
-        );
         if (
           this.form.firstname.length === 0 ||
           this.form.lastname.length === 0
@@ -145,15 +140,18 @@ export default {
           return false;
         }
         return true;
+      } else {
+        return true;
       }
     },
     statePassword() {
       return this.form.password.length >= 4;
     },
-    // eslint-disable-next-line vue/return-in-computed-property
     invalidFeedbackPassword() {
       if (this.form.password.length > 0) {
         return 'Entrez un mot de passe contenant plus de 4 caractères.';
+      } else {
+        return '';
       }
     },
   },
@@ -164,7 +162,16 @@ export default {
     switchToLogin() {
       this.mode = 'login';
     },
-    formValidator() {},
+    createAccount() {
+      console.log('create account', this.form);
+
+      this.$store.dispatch('createAccount', {
+        email: this.form.email,
+        password: this.form.password,
+        firstname: this.form.firstname,
+        lastname: this.form.lastname,
+      });
+    },
     onSubmit(event) {
       event.preventDefault();
       alert(JSON.stringify(this.form));
