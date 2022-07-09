@@ -74,11 +74,15 @@
         </b-form-group>
 
         <b-button
+          v-if="mode === 'login'"
           type="submit"
-          variant="primary"
           :disabled="!stateEmail || !statePassword"
-          >Submit</b-button
+          >Connexion</b-button
         >
+        <b-button v-else type="submit" :disabled="!stateEmail || !statePassword"
+          >Inscription</b-button
+        >
+
         <small v-if="mode === 'login'" class="ml-3" @click="switchToRegister()">
           Vous n'avez pas encore de compte ?
           <span role="button" class="underline">
@@ -119,7 +123,7 @@ export default {
     // eslint-disable-next-line vue/return-in-computed-property
     invalidFeedbackEmail() {
       if (!this.form.email.includes('@') && this.form.email) {
-        return 'Email invalid'
+        return 'Email incorrect'
       }
     },
     statePassword() {
@@ -128,7 +132,7 @@ export default {
     // eslint-disable-next-line vue/return-in-computed-property
     invalidFeedbackPassword() {
       if (this.form.password.length > 0) {
-        return 'Enter a password of more than 4 characters'
+        return 'Entrez un mot de passe contenant plus de 4 caractères.'
       }
     },
   },
