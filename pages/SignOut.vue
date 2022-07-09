@@ -1,17 +1,16 @@
 <template>
   <div>
     <Header />
-    <Jumbotron />
-    <ItemSection />
     <Footer />
   </div>
 </template>
 
 <script>
-import Jumbotron from '~/components/Jumbotron.vue'
 import Footer from '~/components/Footer.vue'
 export default {
-  name: 'IndexPage',
-  components: { Jumbotron, Footer },
+  name: 'SignOutPage',
+  components: { Footer },
 }
 </script>
+
+<style></style>
