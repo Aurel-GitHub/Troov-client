@@ -18,7 +18,7 @@
           </b-form-input>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" :disabled="!stateEmail && !statePassword">Submit</b-button>
+        <b-button type="submit" variant="primary" :disabled="!stateEmail || !statePassword">Submit</b-button>
         <small class="ml-3">
           <NuxtLink to="/register">No account register you here !</NuxtLink>
         </small>
@@ -58,7 +58,7 @@ export default {
     // eslint-disable-next-line vue/return-in-computed-property
     invalidFeedbackPassword() {
       if (this.form.password.length > 0) {
-        return 'Enter a password of more than 4 characters'
+        return 'Enter a password of more than 4 characters';
       }
     }
   },
