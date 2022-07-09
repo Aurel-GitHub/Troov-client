@@ -12,6 +12,7 @@ export default {
 
 <style>
 footer {
+  display: flex;
   position: fixed;
   justify-content: center;
   height: 30px;

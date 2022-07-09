@@ -1,4 +1,6 @@
-<template><Header /></template>
+<template>
+  <Header />
+</template>
 
 <script>
 import Header from '~/components/Header.vue'
@@ -8,4 +10,5 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+</style>

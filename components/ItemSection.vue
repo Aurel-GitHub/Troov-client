@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid="md">
+  <b-container fluid="sm">
     <b-row class="my-2 justify-content-center">
       <ItemCard />
       <ItemCard />
@@ -25,4 +25,5 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+</style>
