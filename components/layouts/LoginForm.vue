@@ -165,7 +165,8 @@ export default {
     },
     createAccount() {
       if (this.form) {
-        this.$store.commit('ADD_USER', this.form);
+        // this.$store.commit('ADD_USER', this.form);
+        this.$store.dispatch('createUser', this.form);
       }
       console.log('this.store', this.$store.state.users);
     },
