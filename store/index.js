@@ -19,7 +19,7 @@ export const actions = {
       firstname: 'sfsdf',
       lastname: 'sdfsd',
     });
-    state.users = [{ content: res.userId }];
+    state.users = [{ userId: res.userId }];
     console.log('res', res.userId, state);
   },
 };
