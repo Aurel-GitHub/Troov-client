@@ -21,7 +21,7 @@
 import ItemCard from './layouts/ItemCard.vue'
 export default {
   name: 'ItemSection',
-  components: { ItemCard },
+  components: { ItemCard }
 }
 </script>
 
