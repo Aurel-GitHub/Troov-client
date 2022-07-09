@@ -3,7 +3,12 @@
     <b-navbar toggleable="lg" type="dark" variant="info">
       <b-navbar-brand>
         <NuxtLink to="/">
-          <img to="/" src="../../assets/logo-dark.png" class="d-inline-block align-top" alt="Logo Troov" />
+          <img
+            to="/"
+            src="../../assets/logo-dark.png"
+            class="d-inline-block align-top"
+            alt="Logo Troov"
+          />
         </NuxtLink>
       </b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -12,16 +17,13 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item class="mr-2">
-            <NuxtLink to="/report">Report</NuxtLink>
+            <NuxtLink to="/report">Déclarer</NuxtLink>
           </b-nav-item>
           <b-nav-item>
-            <NuxtLink to="/login">Sign Up</NuxtLink>
+            <NuxtLink to="/login">S'inscrire / Se connecter</NuxtLink>
           </b-nav-item>
           <b-nav-item>
-            <NuxtLink to="/register">Register</NuxtLink>
-          </b-nav-item>
-          <b-nav-item>
-            <NuxtLink to="/signout">Sign Out</NuxtLink>
+            <NuxtLink to="/signout">Se déconnecter</NuxtLink>
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>

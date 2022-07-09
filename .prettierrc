@@ -1,6 +1,5 @@
 {
   "semi": false,
-  "bracketSameLine": "true",
   "arrowParens": "always",
   "singleQuote": true,
   "trailingComma": "es5",
