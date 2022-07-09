@@ -79,7 +79,10 @@
           :disabled="!stateEmail || !statePassword"
           >Connexion</b-button
         >
-        <b-button v-else type="submit" :disabled="!stateEmail || !statePassword"
+        <b-button
+          v-else
+          type="submit"
+          :disabled="!stateEmail || !statePassword || !createAccountFieldsValid"
           >Inscription</b-button
         >
 
@@ -114,50 +117,68 @@ export default {
         password: '',
       },
       show: true,
-    }
+    };
   },
   computed: {
     stateEmail() {
-      return this.form.email.includes('@')
+      return this.form.email.includes('@');
     },
     // eslint-disable-next-line vue/return-in-computed-property
     invalidFeedbackEmail() {
       if (!this.form.email.includes('@') && this.form.email) {
-        return 'Email incorrect'
+        return 'Email incorrect';
+      }
+    },
+    // eslint-disable-next-line vue/return-in-computed-property
+    createAccountFieldsValid() {
+      if (this.mode === 'register') {
+        console.log(
+          'regi',
+          this.mode,
+          this.form.firstname.length,
+          this.form.lastname.length
+        );
+        if (
+          this.form.firstname.length === 0 ||
+          this.form.lastname.length === 0
+        ) {
+          return false;
+        }
+        return true;
       }
     },
     statePassword() {
-      return this.form.password.length >= 4
+      return this.form.password.length >= 4;
     },
     // eslint-disable-next-line vue/return-in-computed-property
     invalidFeedbackPassword() {
       if (this.form.password.length > 0) {
-        return 'Entrez un mot de passe contenant plus de 4 caractères.'
+        return 'Entrez un mot de passe contenant plus de 4 caractères.';
       }
     },
   },
   methods: {
     switchToRegister() {
-      this.mode = 'register'
+      this.mode = 'register';
     },
     switchToLogin() {
-      this.mode = 'login'
+      this.mode = 'login';
     },
     formValidator() {},
     onSubmit(event) {
-      event.preventDefault()
-      alert(JSON.stringify(this.form))
+      event.preventDefault();
+      alert(JSON.stringify(this.form));
     },
     onReset(event) {
-      event.preventDefault()
+      event.preventDefault();
       // Reset our form values
-      this.form.email = ''
-      this.form.name = ''
-      this.form.food = null
-      this.form.checked = []
+      this.form.email = '';
+      this.form.name = '';
+      this.form.food = null;
+      this.form.checked = [];
     },
   },
-}
+};
 </script>
 
 <style>
