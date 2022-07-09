@@ -101,6 +101,7 @@
         </small>
       </b-form>
     </div>
+    <!-- <h1>{{ $store.state.users }}</h1> -->
   </b-container>
 </template>
 
@@ -163,14 +164,10 @@ export default {
       this.mode = 'login';
     },
     createAccount() {
-      console.log('create account', this.form);
-
-      this.$store.dispatch('createAccount', {
-        email: this.form.email,
-        password: this.form.password,
-        firstname: this.form.firstname,
-        lastname: this.form.lastname,
-      });
+      if (this.form) {
+        this.$store.commit('ADD_USER', this.form);
+      }
+      console.log('this.store', this.$store.state.users);
     },
     onSubmit(event) {
       event.preventDefault();
