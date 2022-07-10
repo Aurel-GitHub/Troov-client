@@ -1,7 +1,7 @@
 <template>
   <b-card
-    title="Card-Title"
-    img-src="https://picsum.photos/600/300"
+    :title="item.where"
+    :img-src="item.photo"
     img-alt="Image"
     img-top
     tag="article"
@@ -9,18 +9,31 @@
     class="col-md-7 my-3 mx-3"
   >
     <b-card-text>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
+      {{ item.description }}
     </b-card-text>
 
-    <b-button href="#" variant="primary">Go somewhere</b-button>
+    <!-- <b-button variant="primary" @click="detail(item._id)">Détails</b-button> -->
   </b-card>
 </template>
 
 <script>
 export default {
   name: 'ItemCard',
-}
+  props: {
+    item: Object,
+  },
+  data() {
+    return {
+      title: this.item.category,
+      image: this.item.photo,
+    };
+  },
+  methods: {
+    detail(itemId) {
+      this.$router.push(`/item/${itemId}`);
+    },
+  },
+};
 </script>
 
 <style></style>

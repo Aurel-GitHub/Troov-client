@@ -53,7 +53,7 @@ export default {
         .catch((error) => error);
       this.isDisconnect = true;
       this.$forceUpdate();
-      // location.reload();
+      this.$router.push(`/`);
     },
     isDisconnect() {
       return true;

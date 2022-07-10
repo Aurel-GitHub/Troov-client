@@ -1,8 +1,8 @@
 <template>
   <b-container fluid="xl">
     <div class="my-5">
-      <h3 v-if="mode === 'login'" class="mb-4">Login form</h3>
-      <h3 v-else class="mb-4">Register form</h3>
+      <h3 v-if="mode === 'login'" class="mb-4">Formulaire de connexion</h3>
+      <h3 v-else class="mb-4">Formulaire d'enregistrement</h3>
 
       <b-form-group
         v-if="mode === 'register'"

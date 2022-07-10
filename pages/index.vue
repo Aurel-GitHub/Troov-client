@@ -2,7 +2,7 @@
   <div>
     <Header />
     <Jumbotron />
-    <ItemSection />
+    <ItemSection :item="$store.state.items" />
     <Footer />
   </div>
 </template>
@@ -13,18 +13,5 @@ import Footer from '~/components/Footer.vue';
 export default {
   name: 'IndexPage',
   components: { Jumbotron, Footer },
-  mounted() {
-    this.$store
-      .dispatch('getItems')
-      .then((response) => {
-        this.$store.commit('setItems', response);
-        console.log('test >>>>', this.$store.state.items);
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log('error', error);
-        this.$store.commit('setItems', ['error loading']);
-      });
-  },
 };
 </script>
