@@ -3,7 +3,9 @@ export const states = () => ({
   user: {
     userId: '',
     token: '',
+    firstname: '',
   },
+  items: [],
 });
 
 export const mutations = {
@@ -18,6 +20,9 @@ export const mutations = {
   },
   logUser(state, user) {
     state.user = user;
+  },
+  setItems(state, items) {
+    state.items = items;
   },
 };
 
@@ -42,6 +47,14 @@ export const actions = {
           email: userInfo.email,
           password: userInfo.password,
         })
+        .then((res) => resolve(res))
+        .catch((error) => reject(error));
+    });
+  },
+  getItems(state) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .$get('/api/item/')
         .then((res) => resolve(res))
         .catch((error) => reject(error));
     });

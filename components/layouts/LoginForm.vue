@@ -72,6 +72,10 @@
         </b-form-input>
       </b-form-group>
 
+      <h5 v-if="mode === 'login' && status == 'error_login'">
+        Adresse mail et/ou mot de passe invalide
+      </h5>
+
       <b-button
         v-if="mode === 'login'"
         type="submit"
@@ -81,7 +85,6 @@
 
         <span v-if="$store.state.status === 'loading'">
           <b-spinner small type="grow"></b-spinner>
-          Loading...
         </span>
       </b-button>
       <b-button
@@ -89,8 +92,11 @@
         type="submit"
         :disabled="!stateEmail || !statePassword || !createAccountFieldsValid"
         @click="createAccount"
-        >Créer un compte</b-button
-      >
+        >Créer un compte
+        <span v-if="$store.state.status === 'loading'">
+          <b-spinner small type="grow"></b-spinner>
+        </span>
+      </b-button>
       <small v-if="mode === 'login'" class="ml-3" @click="switchToRegister()">
         Vous n'avez pas encore de compte ?
         <span role="button" class="underline">
@@ -106,7 +112,9 @@
     </div>
   </b-container>
 </template>
+
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'LoginForm',
 
@@ -156,6 +164,9 @@ export default {
         return '';
       }
     },
+    ...mapState({
+      status: (state) => state.status,
+    }),
   },
   methods: {
     switchToRegister() {
@@ -163,33 +174,6 @@ export default {
     },
     switchToLogin() {
       this.mode = 'login';
-    },
-    createAccount() {
-      if (this.form) {
-        this.$store.commit('setStatus', 'loading');
-        this.$store
-          .dispatch('createUser', this.form)
-          .then((response) => {
-            this.$store.commit('logUser', {
-              userId: response.userId,
-              token: response.token,
-            });
-            this.$store.commit('setStatus', 'loggedIn');
-            this.$bvToast.toast('Félicitation !', {
-              title: 'Vous êtes connecté',
-              variant: 'success',
-              autoHideDelay: 8000,
-              solid: true,
-            });
-            console.log('response', response);
-            console.log('user store', this.$store.state.user);
-            console.log('status store', this.$store.state.status);
-          })
-          .catch((error) => {
-            this.$store.commit('setStatus', 'error create account');
-            console.log('error', error);
-          });
-      }
     },
     login() {
       this.$store.commit('setStatus', 'loading');
@@ -199,21 +183,14 @@ export default {
           .then((response) => {
             this.$store.commit('logUser', {
               userId: response.userId,
+              firstname: response.firstname,
               token: response.token,
             });
             this.$store.commit('setStatus', 'loggedIn');
-            this.$bvToast.toast('Vous êtes connecté.', {
-              title: 'Félicitation ! ',
-              variant: 'success',
-              autoHideDelay: 8000,
-              solid: true,
-            });
-            console.log('response', response);
-            console.log('user store', this.$store.state.user);
-            console.log('status store', this.$store.state.status);
+            this.$router.push('/');
           })
           .catch((error) => {
-            this.$store.commit('setStatus', 'error create account');
+            this.$store.commit('setStatus', 'error_login');
             this.$bvToast.toast(
               'Veuillez ressaisir vos données dans le formulaire.',
               {
@@ -223,9 +200,31 @@ export default {
                 solid: true,
               }
             );
+            // eslint-disable-next-line no-console
             console.log('error', error);
           });
-        console.log('this.store', this.$store.state.users);
+      }
+    },
+    createAccount() {
+      if (this.form) {
+        this.$store.commit('setStatus', 'loading');
+        this.$store
+          .dispatch('createUser', this.form)
+          .then((response) => {
+            this.$store.commit('logUser', {
+              userId: response.userId,
+              firstname: response.firstname,
+              token: response.token,
+            });
+            this.login();
+            this.$store.commit('setStatus', 'loggedIn');
+            this.$router.push('/');
+          })
+          .catch((error) => {
+            this.$store.commit('setStatus', 'error create account');
+            // eslint-disable-next-line no-console
+            console.log('error', error);
+          });
       }
     },
     onReset(event) {
