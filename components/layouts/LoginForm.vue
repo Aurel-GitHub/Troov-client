@@ -40,7 +40,7 @@
         id="input-group-3"
         label="Adresse email:"
         label-for="input-1"
-        valid-feedback="email incorrect"
+        valid-feedback="email correct"
         :invalid-feedback="invalidFeedbackEmail"
         :state="stateEmail"
       >
@@ -58,7 +58,7 @@
         id="input-group-4"
         label="Password:"
         label-for="input-2"
-        valid-feedback="mot de passe incorrect"
+        valid-feedback="mot de passe correct"
         :invalid-feedback="invalidFeedbackPassword"
         :state="statePassword"
       >
@@ -72,7 +72,7 @@
         </b-form-input>
       </b-form-group>
 
-      <h5 v-if="mode === 'login' && status == 'error_login'">
+      <h5 v-if="mode === 'login' && $store.state.status === 'error_login'">
         Adresse mail et/ou mot de passe invalide
       </h5>
 
@@ -93,7 +93,7 @@
         :disabled="!stateEmail || !statePassword || !createAccountFieldsValid"
         @click="createAccount"
         >Créer un compte
-        <span v-if="$store.state.status === 'loading'">
+        <span v-if="$store.state.status == 'loading'">
           <b-spinner small type="grow"></b-spinner>
         </span>
       </b-button>
@@ -114,7 +114,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 export default {
   name: 'LoginForm',
 
@@ -164,9 +163,6 @@ export default {
         return '';
       }
     },
-    ...mapState({
-      status: (state) => state.status,
-    }),
   },
   methods: {
     switchToRegister() {
@@ -176,17 +172,20 @@ export default {
       this.mode = 'login';
     },
     login() {
-      this.$store.commit('setStatus', 'loading');
       if (this.form) {
         this.$store
           .dispatch('loginUser', this.form)
           .then((response) => {
+            this.$store.commit('setStatus', 'loading');
+
             this.$store.commit('logUser', {
               userId: response.userId,
               firstname: response.firstname,
               token: response.token,
             });
+
             this.$store.commit('setStatus', 'loggedIn');
+
             this.$router.push('/');
           })
           .catch((error) => {
@@ -226,14 +225,6 @@ export default {
             console.log('error', error);
           });
       }
-    },
-    onReset(event) {
-      event.preventDefault();
-      // Reset our form values
-      this.form.email = '';
-      this.form.name = '';
-      this.form.food = null;
-      this.form.checked = [];
     },
   },
 };

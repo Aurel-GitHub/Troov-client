@@ -24,15 +24,6 @@ export default {
         // eslint-disable-next-line no-console
         console.log('error', error);
         this.$store.commit('setItems', ['error loading']);
-        this.$bvToast.toast(
-          'Les objets sont momentanément indisponibles, veuillez nous en excuser.',
-          {
-            title: 'Erreur !',
-            variant: 'danger',
-            autoHideDelay: 8000,
-            solid: true,
-          }
-        );
       });
   },
 };

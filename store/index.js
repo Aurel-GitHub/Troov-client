@@ -1,17 +1,15 @@
+const userObject = {
+  userId: '',
+  firstname: '',
+  token: '',
+};
 export const states = () => ({
   status: '',
-  user: {
-    userId: '',
-    token: '',
-    firstname: '',
-  },
+  user: userObject,
   items: [],
 });
 
 export const mutations = {
-  ADD_USER(state, user) {
-    state.users = [{ content: user }];
-  },
   REMOVE_USER(state, user) {
     state.users.splice(state.users.indexOf(user), 1);
   },
@@ -19,13 +17,19 @@ export const mutations = {
     state.status = status;
   },
   logUser(state, user) {
+    this.$axios.setHeader('Authorization', user.token);
+    localStorage.setItem('user', JSON.stringify(user));
     state.user = user;
+  },
+  logout(state) {
+    state.user = userObject;
+    state.status = 'logout';
+    localStorage.clear();
   },
   setItems(state, items) {
     state.items = items;
   },
 };
-
 export const actions = {
   createUser(state, userInfo) {
     return new Promise((resolve, reject) => {
@@ -51,11 +55,21 @@ export const actions = {
         .catch((error) => reject(error));
     });
   },
+  logoutUser(state) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .$get('/api/auth/logout')
+        .then((res) => resolve(res))
+        .catch((error) => reject(error));
+    });
+  },
   getItems(state) {
     return new Promise((resolve, reject) => {
       this.$axios
         .$get('/api/item/')
-        .then((res) => resolve(res))
+        .then((res) => {
+          resolve(res);
+        })
         .catch((error) => reject(error));
     });
   },
