@@ -1,111 +1,111 @@
 <template>
   <b-container fluid="xl">
     <div class="my-5">
-      <b-form @submit="onSubmit">
-        <h3 v-if="mode === 'login'" class="mb-4">Login form</h3>
-        <h3 v-else class="mb-4">Register form</h3>
+      <h3 v-if="mode === 'login'" class="mb-4">Login form</h3>
+      <h3 v-else class="mb-4">Register form</h3>
 
-        <b-form-group
-          v-if="mode === 'register'"
-          id="input-group-1"
-          label="Prénom:"
-          label-for="input-1"
+      <b-form-group
+        v-if="mode === 'register'"
+        id="input-group-1"
+        label="Prénom:"
+        label-for="input-1"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.firstname"
+          type="text"
+          placeholder="Entrez votre prénom"
+          required
         >
-          <b-form-input
-            id="input-1"
-            v-model="form.firstname"
-            type="text"
-            placeholder="Entrez votre prénom"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
+        </b-form-input>
+      </b-form-group>
 
-        <b-form-group
-          v-if="mode === 'register'"
-          id="input-group-2"
-          label="Nom:"
-          label-for="input-2"
+      <b-form-group
+        v-if="mode === 'register'"
+        id="input-group-2"
+        label="Nom:"
+        label-for="input-2"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.lastname"
+          type="text"
+          placeholder="Entrez votre nom"
+          required
         >
-          <b-form-input
-            id="input-1"
-            v-model="form.lastname"
-            type="text"
-            placeholder="Entrez votre nom"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
+        </b-form-input>
+      </b-form-group>
 
-        <b-form-group
-          id="input-group-3"
-          label="Adresse email:"
-          label-for="input-1"
-          valid-feedback="email incorrect"
-          :invalid-feedback="invalidFeedbackEmail"
-          :state="stateEmail"
+      <b-form-group
+        id="input-group-3"
+        label="Adresse email:"
+        label-for="input-1"
+        valid-feedback="email incorrect"
+        :invalid-feedback="invalidFeedbackEmail"
+        :state="stateEmail"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.email"
+          type="email"
+          placeholder="Entrez votre adresse email"
+          required
         >
-          <b-form-input
-            id="input-1"
-            v-model="form.email"
-            type="email"
-            placeholder="Entrez votre adresse email"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
+        </b-form-input>
+      </b-form-group>
 
-        <b-form-group
-          id="input-group-4"
-          label="Password:"
-          label-for="input-2"
-          valid-feedback="mot de passe incorrect"
-          :invalid-feedback="invalidFeedbackPassword"
-          :state="statePassword"
+      <b-form-group
+        id="input-group-4"
+        label="Password:"
+        label-for="input-2"
+        valid-feedback="mot de passe incorrect"
+        :invalid-feedback="invalidFeedbackPassword"
+        :state="statePassword"
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.password"
+          type="password"
+          placeholder="Entrez votre mot de passe"
+          required
         >
-          <b-form-input
-            id="input-1"
-            v-model="form.password"
-            type="password"
-            placeholder="Entrez votre mot de passe"
-            required
-          >
-          </b-form-input>
-        </b-form-group>
+        </b-form-input>
+      </b-form-group>
 
-        <b-button
-          v-if="mode === 'login'"
-          type="submit"
-          :disabled="!stateEmail || !statePassword"
-          @click="login()"
-          >Connexion</b-button
-        >
-        <b-button
-          v-else
-          type="submit"
-          :disabled="!stateEmail || !statePassword || !createAccountFieldsValid"
-          @click="createAccount"
-          >Créer un compte</b-button
-        >
+      <b-button
+        v-if="mode === 'login'"
+        type="submit"
+        :disabled="!stateEmail || !statePassword"
+        @click="login()"
+        >Connexion
 
-        <small v-if="mode === 'login'" class="ml-3" @click="switchToRegister()">
-          Vous n'avez pas encore de compte ?
-          <span role="button" class="underline">
-            Cliquer ici pour vous inscrire.
-          </span>
-        </small>
-        <small v-else class="ml-3" role="button" @click="switchToLogin()">
-          Vous avez déjà un compte ?
-          <span role="button" class="underline">
-            Cliquer ici pour vous connecter.
-          </span>
-        </small>
-      </b-form>
+        <span v-if="$store.state.status === 'loading'">
+          <b-spinner small type="grow"></b-spinner>
+          Loading...
+        </span>
+      </b-button>
+      <b-button
+        v-else
+        type="submit"
+        :disabled="!stateEmail || !statePassword || !createAccountFieldsValid"
+        @click="createAccount"
+        >Créer un compte</b-button
+      >
+      <small v-if="mode === 'login'" class="ml-3" @click="switchToRegister()">
+        Vous n'avez pas encore de compte ?
+        <span role="button" class="underline">
+          Cliquer ici pour vous inscrire.
+        </span>
+      </small>
+      <small v-else class="ml-3" role="button" @click="switchToLogin()">
+        Vous avez déjà un compte ?
+        <span role="button" class="underline">
+          Cliquer ici pour vous connecter.
+        </span>
+      </small>
     </div>
-    <!-- <h1>{{ $store.state.users }}</h1> -->
   </b-container>
 </template>
-
 <script>
 export default {
   name: 'LoginForm',
@@ -175,6 +175,12 @@ export default {
               token: response.token,
             });
             this.$store.commit('setStatus', 'loggedIn');
+            this.$bvToast.toast('Félicitation !', {
+              title: 'Vous êtes connecté',
+              variant: 'success',
+              autoHideDelay: 8000,
+              solid: true,
+            });
             console.log('response', response);
             console.log('user store', this.$store.state.user);
             console.log('status store', this.$store.state.status);
@@ -186,8 +192,8 @@ export default {
       }
     },
     login() {
+      this.$store.commit('setStatus', 'loading');
       if (this.form) {
-        this.$store.commit('setStatus', 'loading');
         this.$store
           .dispatch('loginUser', this.form)
           .then((response) => {
@@ -196,20 +202,31 @@ export default {
               token: response.token,
             });
             this.$store.commit('setStatus', 'loggedIn');
+            this.$bvToast.toast('Vous êtes connecté.', {
+              title: 'Félicitation ! ',
+              variant: 'success',
+              autoHideDelay: 8000,
+              solid: true,
+            });
             console.log('response', response);
             console.log('user store', this.$store.state.user);
             console.log('status store', this.$store.state.status);
           })
           .catch((error) => {
             this.$store.commit('setStatus', 'error create account');
+            this.$bvToast.toast(
+              'Veuillez ressaisir vos données dans le formulaire.',
+              {
+                title: 'Erreur !',
+                variant: 'danger',
+                autoHideDelay: 8000,
+                solid: true,
+              }
+            );
             console.log('error', error);
           });
         console.log('this.store', this.$store.state.users);
       }
-    },
-    onSubmit(event) {
-      event.preventDefault();
-      alert(JSON.stringify(this.form));
     },
     onReset(event) {
       event.preventDefault();
