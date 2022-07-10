@@ -1,5 +1,9 @@
 export const states = () => ({
-  users: [],
+  status: '',
+  user: {
+    userId: '',
+    token: '',
+  },
 });
 
 export const mutations = {
@@ -9,17 +13,37 @@ export const mutations = {
   REMOVE_USER(state, user) {
     state.users.splice(state.users.indexOf(user), 1);
   },
+  setStatus(state, status) {
+    state.status = status;
+  },
+  logUser(state, user) {
+    state.user = user;
+  },
 };
 
 export const actions = {
-  async createUser(state, userInfo) {
-    const res = await this.$axios.$post('/api/auth/signup', {
-      email: 'dqsdoqe@sdf',
-      password: 'sdfsdf',
-      firstname: 'sfsdf',
-      lastname: 'sdfsd',
+  createUser(state, userInfo) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .$post('/api/auth/signup', {
+          email: userInfo.email,
+          password: userInfo.password,
+          firstname: userInfo.firstname,
+          lastname: userInfo.lastname,
+        })
+        .then((res) => resolve(res))
+        .catch((error) => reject(error));
     });
-    state.users = [{ userId: res.userId }];
-    console.log('res', res.userId, state);
+  },
+  loginUser(state, userInfo) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .$post('/api/auth/login', {
+          email: userInfo.email,
+          password: userInfo.password,
+        })
+        .then((res) => resolve(res))
+        .catch((error) => reject(error));
+    });
   },
 };

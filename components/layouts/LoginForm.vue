@@ -77,6 +77,7 @@
           v-if="mode === 'login'"
           type="submit"
           :disabled="!stateEmail || !statePassword"
+          @click="login()"
           >Connexion</b-button
         >
         <b-button
@@ -165,10 +166,46 @@ export default {
     },
     createAccount() {
       if (this.form) {
-        // this.$store.commit('ADD_USER', this.form);
-        this.$store.dispatch('createUser', this.form);
+        this.$store.commit('setStatus', 'loading');
+        this.$store
+          .dispatch('createUser', this.form)
+          .then((response) => {
+            this.$store.commit('logUser', {
+              userId: response.userId,
+              token: response.token,
+            });
+            this.$store.commit('setStatus', 'loggedIn');
+            console.log('response', response);
+            console.log('user store', this.$store.state.user);
+            console.log('status store', this.$store.state.status);
+          })
+          .catch((error) => {
+            this.$store.commit('setStatus', 'error create account');
+            console.log('error', error);
+          });
       }
-      console.log('this.store', this.$store.state.users);
+    },
+    login() {
+      if (this.form) {
+        this.$store.commit('setStatus', 'loading');
+        this.$store
+          .dispatch('loginUser', this.form)
+          .then((response) => {
+            this.$store.commit('logUser', {
+              userId: response.userId,
+              token: response.token,
+            });
+            this.$store.commit('setStatus', 'loggedIn');
+            console.log('response', response);
+            console.log('user store', this.$store.state.user);
+            console.log('status store', this.$store.state.status);
+          })
+          .catch((error) => {
+            this.$store.commit('setStatus', 'error create account');
+            console.log('error', error);
+          });
+        console.log('this.store', this.$store.state.users);
+      }
     },
     onSubmit(event) {
       event.preventDefault();
