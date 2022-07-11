@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid="sm">
+  <b-container fluid="md">
     <b-row
       v-if="!isLoading && data?.length > 0"
       class="mt-2 mb-5 justify-content-center"

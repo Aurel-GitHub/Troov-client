@@ -93,7 +93,7 @@
         :disabled="!stateEmail || !statePassword || !formValidator"
         @click="createAccount"
         >Créer un compte
-        <span v-if="$store.state.status == 'loading'">
+        <span v-if="isSubmit">
           <b-spinner small type="grow"></b-spinner>
         </span>
       </b-button>
@@ -127,6 +127,7 @@ export default {
         password: '',
       },
       show: true,
+      isSubmit: false,
     };
   },
   computed: {
@@ -173,6 +174,7 @@ export default {
     },
     login() {
       if (this.form) {
+        this.isSubmit = true;
         this.$store
           .dispatch('loginUser', this.form)
           .then((response) => {
@@ -185,7 +187,7 @@ export default {
             });
 
             this.$store.commit('setStatus', 'loggedIn');
-
+            this.isSubmit = false;
             this.$router.push('/');
           })
           .catch((error) => {
@@ -199,6 +201,7 @@ export default {
                 solid: true,
               }
             );
+            this.isSubmit = false;
             // eslint-disable-next-line no-console
             console.log('error', error);
           });
@@ -206,6 +209,7 @@ export default {
     },
     createAccount() {
       if (this.form) {
+        this.isSubmit = true;
         this.$store.commit('setStatus', 'loading');
         this.$store
           .dispatch('createUser', this.form)
@@ -217,10 +221,12 @@ export default {
             });
             this.login();
             this.$store.commit('setStatus', 'loggedIn');
+            this.isSubmit = false;
             this.$router.push('/');
           })
           .catch((error) => {
             this.$store.commit('setStatus', 'error create account');
+            this.isSubmit = false;
             // eslint-disable-next-line no-console
             console.log('error', error);
           });

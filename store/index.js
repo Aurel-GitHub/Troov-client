@@ -10,9 +10,6 @@ export const states = () => ({
 });
 
 export const mutations = {
-  REMOVE_USER(state, user) {
-    state.users.splice(state.users.indexOf(user), 1);
-  },
   setStatus(state, status) {
     state.status = status;
   },
@@ -34,6 +31,9 @@ export const mutations = {
   },
   setItems(state, items) {
     state.items = items;
+  },
+  setOneItem(state, item) {
+    state.items.push(item);
   },
 };
 export const actions = {
@@ -61,7 +61,7 @@ export const actions = {
         .catch((error) => reject(error));
     });
   },
-  logoutUser(state) {
+  logoutUser() {
     return new Promise((resolve, reject) => {
       this.$axios
         .$get('/api/auth/logout')
@@ -79,4 +79,43 @@ export const actions = {
         .catch((error) => reject(error));
     });
   },
+  createItem(state, itemInfo) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .$post(
+          '/api/item/',
+          {
+            where: itemInfo.where,
+            isLost: true,
+            category: itemInfo.category,
+            photo: itemInfo.photo,
+            description: itemInfo.description,
+            userId: itemInfo.userId,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${itemInfo.token}`,
+            },
+          }
+        )
+        .then((res) => resolve(res))
+        .catch((error) => reject(error));
+    });
+  },
+  // updateItem() {
+  //   /**
+  //    * put - /api/item/idItem
+
+  //   xios.get('https://api.github.com/user', {
+  //   headers: {
+  //     'Authorization': `token ${access_token}`
+  //   }
+  // })
+  //    */
+  // },
+  // deleteItem() {
+  //   /**
+  //    * delete - /api/item/idItem
+  //    */
+  // },
 };

@@ -2,13 +2,15 @@
   <b-card
     :title="item.where"
     :img-src="item.photo"
-    img-alt="Image"
+    :img-alt="item.category"
+    img-height="100%"
+    img-width="100%"
     img-top
     tag="article"
-    style="max-width: 20rem"
-    class="col-md-7 my-3 mx-3"
+    style="max-width: 20rem; padding-top: 1rem"
+    class="col-md-5 my-3 mx-4"
   >
-    <b-card-text>
+    <b-card-text style="max-width: 10rem; height: 8rem; max-height: 8rem">
       {{ item.description }}
     </b-card-text>
 

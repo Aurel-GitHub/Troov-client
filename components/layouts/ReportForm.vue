@@ -53,7 +53,7 @@
       <b-button
         type="submit"
         :disabled="!formValidator || $store.state.status !== 'loggedIn'"
-        @click="submit()"
+        @click="createReport()"
         >Connexion
       </b-button>
     </div>
@@ -69,16 +69,17 @@ export default {
         where: '',
         isLost: true,
         category: '',
-        photo: '',
+        photo: 'https://picsum.photos/200/300',
         description: '',
+        userId: '',
       },
       show: true,
+      isSubmit: false,
     };
   },
   computed: {
     formValidator() {
       if (this.$store.state.status !== 'loggedIn') {
-        console.log('step0');
         return false;
       } else if (
         this.form.where.length === 0 ||
@@ -86,11 +87,31 @@ export default {
         this.form.description.length === 0 ||
         this.form.photo.length === 0
       ) {
-        console.log('step1');
         return false;
       } else {
-        console.log('step2');
         return true;
+      }
+    },
+  },
+  methods: {
+    createReport() {
+      if (this.form && this.$store.state.user) {
+        this.isSubmit = true;
+        this.form.userId = this.$store.state.user.userId;
+        this.form.token = this.$store.state.user.token;
+        this.$store
+          .dispatch('createItem', this.form)
+          .then((response) => {
+            console.log('response item', response);
+            this.$store.commit('setOneItem', response);
+            this.isSubmit = false;
+            this.$router.push('/');
+          })
+          .catch((error) => {
+            this.isSubmit = false;
+            // eslint-disable-next-line no-console
+            console.log('error', error, this.form);
+          });
       }
     },
   },
