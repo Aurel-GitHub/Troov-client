@@ -8,7 +8,7 @@
         <ItemCard :item="item" />
       </div>
     </b-row>
-    <b-row v-else class="mt-2 mb-5 justify-content-center">
+    <b-row v-else class="mt-5 justify-content-center">
       <b-spinner
         style="width: 5rem; height: 5rem"
         label="Large Spinner"
