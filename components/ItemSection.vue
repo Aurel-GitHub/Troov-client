@@ -48,19 +48,6 @@ export default {
         });
     },
   },
-
-  // mounted() {
-  //   this.$store
-  //     .dispatch('getItems')
-  //     .then((response) => {
-  //       this.$store.commit('setItems', response);
-  //     })
-  //     .catch((error) => {
-  //       // eslint-disable-next-line no-console
-  //       console.log('error', error);
-  //       this.$store.commit('setItems', ['error loading']);
-  //     });
-  // },
 };
 </script>
 

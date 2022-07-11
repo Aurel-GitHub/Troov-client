@@ -13,8 +13,6 @@
     <b-card-text style="max-width: 10rem; height: 8rem; max-height: 8rem">
       {{ item.description }}
     </b-card-text>
-
-    <!-- <b-button variant="primary" @click="detail(item._id)">Détails</b-button> -->
   </b-card>
 </template>
 
@@ -22,7 +20,10 @@
 export default {
   name: 'ItemCard',
   props: {
-    item: Object,
+    item: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
