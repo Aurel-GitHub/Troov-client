@@ -18,6 +18,12 @@ export const mutations = {
   },
   logUser(state, user) {
     this.$axios.setHeader('Authorization', user.token);
+    this.$axios.setToken(user.token, 'Bearer', [
+      'post',
+      'delete',
+      'put',
+      'patch',
+    ]);
     localStorage.setItem('user', JSON.stringify(user));
     state.user = user;
   },
