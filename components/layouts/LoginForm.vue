@@ -90,7 +90,7 @@
       <b-button
         v-else
         type="submit"
-        :disabled="!stateEmail || !statePassword || !createAccountFieldsValid"
+        :disabled="!stateEmail || !statePassword || !formValidator"
         @click="createAccount"
         >Créer un compte
         <span v-if="$store.state.status == 'loading'">
@@ -140,7 +140,7 @@ export default {
         return '';
       }
     },
-    createAccountFieldsValid() {
+    formValidator() {
       if (this.mode === 'register') {
         if (
           this.form.firstname.length === 0 ||

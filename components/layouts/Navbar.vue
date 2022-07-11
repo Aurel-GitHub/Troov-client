@@ -27,7 +27,7 @@
             v-if="$store.state.status === 'loggedIn'"
             class="navbar-brand"
           >
-            {{ $store.state.user.firstname }}
+            Bonjour, {{ $store.state.user.firstname }}
           </b-navbar-brand>
         </b-navbar-nav>
       </b-collapse>
