@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <ReportForm :mode="update" :item="item" />
+    <ReportForm mode="update" />
     <Footer />
   </div>
 </template>
@@ -15,15 +15,6 @@ export default {
     return {
       item: {},
     };
-  },
-  mounted() {
-    if (!this.$store.state.items) {
-      this.$router.push('/');
-    } else {
-      const items = this.$store.state.items;
-      const itemId = this.$route.params.id;
-      this.item = items.find((item) => item._id === itemId);
-    }
   },
 };
 </script>

@@ -51,11 +51,25 @@
       </b-form-group>
 
       <b-button
+        v-if="mode === 'create'"
         type="submit"
         :disabled="!formValidator || $store.state.status !== 'loggedIn'"
-        @click="createReport()"
+        @click="createItem()"
         >Enregistrer
       </b-button>
+      <b-button
+        v-if="mode === 'update'"
+        variant="outline-primary"
+        :disabled="!formValidator || $store.state.status !== 'loggedIn'"
+        @click="updateItem(item._id)"
+        >Modifier</b-button
+      >
+      <b-button
+        v-if="mode === 'update'"
+        variant="danger"
+        @click="deleteItem(item._id, item.userId)"
+        >Supprimer</b-button
+      >
     </div>
   </b-container>
 </template>
@@ -63,10 +77,16 @@
 <script>
 export default {
   name: 'ReportForm',
+  props: {
+    mode: {
+      type: String,
+      default: null,
+    },
+  },
   data() {
     return {
       form: {
-        where: this.mode === 'update' ? 'sfsdfsddfsdfsdfsdfsdfsdf' : '',
+        where: '',
         isLost: true,
         category: '',
         photo: 'https://picsum.photos/200/300',
@@ -75,6 +95,7 @@ export default {
       },
       show: true,
       isSubmit: false,
+      item: {},
     };
   },
   computed: {
@@ -93,14 +114,25 @@ export default {
       }
     },
   },
+  mounted() {
+    if (this.$store.state.items && this.mode === 'update') {
+      const items = this.$store.state.items;
+      const itemId = this.$route.params.id;
+      this.item = items.find((item) => item._id === itemId);
+      this.form = this.item;
+    }
+  },
+
   methods: {
-    createReport() {
+    createItem() {
       if (this.form && this.$store.state.user) {
         this.isSubmit = true;
-        this.form.userId = this.$store.state.user.userId;
-        this.form.token = this.$store.state.user.token;
         this.$store
-          .dispatch('createItem', this.form)
+          .dispatch('createItem', {
+            userId: this.$store.state.user.userId,
+            form: this.form,
+            token: this.$store.state.user.token,
+          })
           .then((response) => {
             this.$store.commit('setOneItem', response);
             this.isSubmit = false;
@@ -111,6 +143,40 @@ export default {
             // eslint-disable-next-line no-console
             console.log('error', error, this.form);
           });
+      }
+    },
+    updateItem(itemId) {
+      if (this.form && this.$store.state.user) {
+        this.isSubmit = true;
+        this.$store
+          .dispatch('updateItem', {
+            itemId,
+            form: this.form,
+            token: this.$store.state.user.token,
+          })
+          .then((response) => {
+            this.$store.commit('updateOneItem', response);
+            this.isSubmit = false;
+            this.$router.push('/');
+          })
+          .catch((error) => {
+            this.isSubmit = false;
+            console.log(error);
+          });
+      }
+    },
+    deleteItem(itemId, userId) {
+      if (this.$store.state.user.userId === userId) {
+        this.$store
+          .dispatch('deleteItem', {
+            itemId,
+            token: this.$store.state.user.token,
+          })
+          .then((res) => {
+            this.$store.commit('deleteOneItem', itemId);
+            this.$router.push('/');
+          })
+          .catch((error) => console.log(error));
       }
     },
   },

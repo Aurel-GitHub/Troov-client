@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <ReportForm :mode="create" />
+    <ReportForm mode="create" />
     <Footer />
   </div>
 </template>
