@@ -143,20 +143,4 @@ export const actions = {
         .catch((error) => reject(error));
     });
   },
-  // updateItem() {
-  //   /**
-  //    * put - /api/item/idItem
-
-  //   xios.get('https://api.github.com/user', {
-  //   headers: {
-  //     'Authorization': `token ${access_token}`
-  //   }
-  // })
-  //    */
-  // },
-  // deleteItem() {
-  //   /**
-  //    * delete - /api/item/idItem
-  //    */
-  // },
 };

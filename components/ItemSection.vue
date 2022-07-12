@@ -1,19 +1,13 @@
 <template>
   <b-container fluid="md">
-    <b-row
-      v-if="!isLoading && data?.length > 0"
-      class="mt-2 mb-5 justify-content-center"
-    >
+    <b-row v-if="!isLoading && data?.length > 0" class="mt-2 mb-5 justify-content-center">
       <div v-for="item in data" :key="item._id">
         <ItemCard :item="item" />
       </div>
     </b-row>
     <b-row v-else class="mt-5 justify-content-center">
-      <b-spinner
-        style="width: 5rem; height: 5rem"
-        label="Large Spinner"
-      ></b-spinner
-    ></b-row>
+      <b-spinner style="width: 5rem; height: 5rem" label="Large Spinner"></b-spinner>
+    </b-row>
   </b-container>
 </template>
 
@@ -26,7 +20,6 @@ export default {
     return {
       data: [],
       isLoading: false,
-      reload: null,
     };
   },
   created() {
@@ -43,7 +36,6 @@ export default {
           this.isLoading = false;
         })
         .catch((error) => {
-          // eslint-disable-next-line no-console
           console.log('error', error);
           this.$store.commit('setItems', ['error loading']);
         });
@@ -52,4 +44,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>

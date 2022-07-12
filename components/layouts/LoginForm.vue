@@ -4,71 +4,26 @@
       <h3 v-if="mode === 'login'" class="mb-4">Formulaire de connexion</h3>
       <h3 v-else class="mb-4">Formulaire d'enregistrement</h3>
 
-      <b-form-group
-        v-if="mode === 'register'"
-        id="input-group-1"
-        label="Prénom:"
-        label-for="input-1"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.firstname"
-          type="text"
-          placeholder="Entrez votre prénom"
-          required
-        >
+      <b-form-group v-if="mode === 'register'" id="input-group-1" label="Prénom:" label-for="input-1">
+        <b-form-input id="input-1" v-model="form.firstname" type="text" placeholder="Entrez votre prénom" required>
         </b-form-input>
       </b-form-group>
 
-      <b-form-group
-        v-if="mode === 'register'"
-        id="input-group-2"
-        label="Nom:"
-        label-for="input-2"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.lastname"
-          type="text"
-          placeholder="Entrez votre nom"
-          required
-        >
+      <b-form-group v-if="mode === 'register'" id="input-group-2" label="Nom:" label-for="input-2">
+        <b-form-input id="input-1" v-model="form.lastname" type="text" placeholder="Entrez votre nom" required>
         </b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-3"
-        label="Adresse email:"
-        label-for="input-1"
-        valid-feedback="email correct"
-        :invalid-feedback="invalidFeedbackEmail"
-        :state="stateEmail"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          placeholder="Entrez votre adresse email"
-          required
-        >
+      <b-form-group id="input-group-3" label="Adresse email:" label-for="input-1" valid-feedback="email correct"
+        :invalid-feedback="invalidFeedbackEmail" :state="stateEmail">
+        <b-form-input id="input-1" v-model="form.email" type="email" placeholder="Entrez votre adresse email" required>
         </b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-4"
-        label="Password:"
-        label-for="input-2"
-        valid-feedback="mot de passe correct"
-        :invalid-feedback="invalidFeedbackPassword"
-        :state="statePassword"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.password"
-          type="password"
-          placeholder="Entrez votre mot de passe"
-          required
-        >
+      <b-form-group id="input-group-4" label="Password:" label-for="input-2" valid-feedback="mot de passe correct"
+        :invalid-feedback="invalidFeedbackPassword" :state="statePassword">
+        <b-form-input id="input-1" v-model="form.password" type="password" placeholder="Entrez votre mot de passe"
+          required>
         </b-form-input>
       </b-form-group>
 
@@ -76,24 +31,16 @@
         Adresse mail et/ou mot de passe invalide
       </h5>
 
-      <b-button
-        v-if="mode === 'login'"
-        type="submit"
-        :disabled="!stateEmail || !statePassword"
-        @click="login()"
-        >Connexion
+      <b-button v-if="mode === 'login'" type="submit" :disabled="!stateEmail || !statePassword" @click="login()">
+        Connexion
 
         <span v-if="$store.state.status === 'loading'">
           <b-spinner small type="grow"></b-spinner>
         </span>
       </b-button>
-      <b-button
-        v-else
-        type="submit"
-        :disabled="!stateEmail || !statePassword || !formValidator"
-        @click="createAccount"
-        >Créer un compte
-        <span v-if="isSubmit">
+      <b-button v-else type="submit" :disabled="!stateEmail || !statePassword || !formValidator" @click="createAccount">
+        Créer un compte
+        <span v-if="$store.state.status === 'loading'">
           <b-spinner small type="grow"></b-spinner>
         </span>
       </b-button>
@@ -127,7 +74,6 @@ export default {
         password: '',
       },
       show: true,
-      isSubmit: false,
     };
   },
   computed: {
@@ -174,18 +120,15 @@ export default {
     },
     login() {
       if (this.form) {
-        this.isSubmit = true;
+        this.$store.commit('setStatus', 'loading');
         this.$store
           .dispatch('loginUser', this.form)
           .then((response) => {
-            this.$store.commit('setStatus', 'loading');
-
             this.$store.commit('logUser', {
               userId: response.userId,
               firstname: response.firstname,
               token: response.token,
             });
-
             this.$store.commit('setStatus', 'loggedIn');
             this.isSubmit = false;
             this.$router.push('/');
@@ -202,7 +145,6 @@ export default {
               }
             );
             this.isSubmit = false;
-            // eslint-disable-next-line no-console
             console.log('error', error);
           });
       }
@@ -227,7 +169,6 @@ export default {
           .catch((error) => {
             this.$store.commit('setStatus', 'error create account');
             this.isSubmit = false;
-            // eslint-disable-next-line no-console
             console.log('error', error);
           });
       }

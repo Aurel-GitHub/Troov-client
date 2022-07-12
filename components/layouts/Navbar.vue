@@ -3,12 +3,7 @@
     <b-navbar toggleable="lg" type="dark" variant="info">
       <b-navbar-brand>
         <NuxtLink to="/">
-          <img
-            to="/"
-            src="../../assets/logo-dark.png"
-            class="d-inline-block align-top"
-            alt="Logo Troov"
-          />
+          <img to="/" src="../../assets/logo-dark.png" class="d-inline-block align-top" alt="Logo Troov" />
         </NuxtLink>
       </b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -23,10 +18,7 @@
             <NuxtLink to="/login">S'inscrire / Se connecter</NuxtLink>
           </b-nav-item>
           <b-nav-item v-else @click="logout"> Se déconnecter </b-nav-item>
-          <b-navbar-brand
-            v-if="$store.state.status === 'loggedIn'"
-            class="navbar-brand"
-          >
+          <b-navbar-brand v-if="$store.state.status === 'loggedIn'" class="navbar-brand">
             Bonjour, {{ $store.state.user.firstname }}
           </b-navbar-brand>
         </b-navbar-nav>
@@ -39,11 +31,6 @@
 export default {
   name: 'NavbarLayout',
   methods: {
-    data() {
-      return {
-        isDisconnect: false,
-      };
-    },
     logout() {
       this.$store.commit('logout');
       this.$store.commit('setStatus', 'logout');
@@ -51,11 +38,7 @@ export default {
         .dispatch('logoutUser')
         .then((response) => response)
         .catch((error) => error);
-      this.isDisconnect = true;
       this.$forceUpdate();
-    },
-    isDisconnect() {
-      return true;
     },
   },
 };
@@ -67,6 +50,7 @@ a:visited {
   text-decoration: none;
   color: inherit;
 }
+
 .navbar-brand {
   font-size: 1rem;
   font-weight: 400;
