@@ -29,10 +29,12 @@
       <b-button v-if="mode === 'create'" type="submit" :disabled="!formValidator || $store.state.status !== 'loggedIn'"
         @click="createItem()">Enregistrer
       </b-button>
-      <b-button v-if="mode === 'update'" variant="outline-primary"
+      <b-button v-if="mode === 'update'" variant=" outline-primary"
         :disabled="!formValidator || $store.state.status !== 'loggedIn'" @click="updateItem(item._id)">Modifier
       </b-button>
-      <b-button v-if="mode === 'update'" variant="danger" @click="deleteItem(item._id, item.userId)">Supprimer
+      <b-button v-if="mode === 'update'" variant="danger"
+        :disabled="!formValidator || $store.state.status !== 'loggedIn'" @click="deleteItem(item._id, item.userId)">
+        Supprimer
       </b-button>
     </div>
   </b-container>

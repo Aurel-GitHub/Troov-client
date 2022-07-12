@@ -30,6 +30,7 @@
 <script>
 export default {
   name: 'NavbarLayout',
+
   methods: {
     logout() {
       this.$store.commit('logout');
@@ -38,7 +39,17 @@ export default {
         .dispatch('logoutUser')
         .then((response) => response)
         .catch((error) => error);
-      this.$forceUpdate();
+      /**
+       * ? workaround
+       * le forceUpdate a été commenté lié au souci du refresh
+       * de l'itemComponent après une déconexion
+       *
+       * todo - refresh itemComponent dès le changement de la value status dans le store
+       *  1 - utiliser les lifecyclehooks mounted() & watch()
+       *  2 - faire un getter getStatus & utiliser le mapGetter de vuex
+       */
+      // this.$forceUpdate();
+      location.reload()
     },
   },
 };

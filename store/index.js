@@ -8,7 +8,6 @@ export const states = () => ({
   user: userObject,
   items: [],
 });
-
 export const mutations = {
   setStatus(state, status) {
     state.status = status;

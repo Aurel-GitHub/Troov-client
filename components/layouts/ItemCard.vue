@@ -30,13 +30,13 @@ export default {
       this.$router.push(`/item/${itemId}`);
     },
     isUserAccess() {
-      if (this.$store.state.user) {
+      if (this.$store.state.user && this.$store.state.status === 'loggedIn') {
         return this.$store.state.user.userId === this.item.userId;
       } else {
         return false;
       }
     },
-  },
+  }
 };
 </script>
 

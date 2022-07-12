@@ -13,6 +13,7 @@
 
 <script>
 import ItemCard from './layouts/ItemCard.vue';
+
 export default {
   name: 'ItemSection',
   components: { ItemCard },
@@ -22,8 +23,10 @@ export default {
       isLoading: false,
     };
   },
+
   created() {
     this.getItem();
+
   },
   methods: {
     getItem() {
