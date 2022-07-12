@@ -161,6 +161,7 @@ export default {
           })
           .catch((error) => {
             this.isSubmit = false;
+            // eslint-disable-next-line no-console
             console.log(error);
           });
       }
@@ -176,6 +177,7 @@ export default {
             this.$store.commit('deleteOneItem', itemId);
             this.$router.push('/');
           })
+          // eslint-disable-next-line no-console
           .catch((error) => console.log(error));
       }
     },

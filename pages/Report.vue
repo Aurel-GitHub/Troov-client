@@ -12,13 +12,6 @@ import ReportForm from '~/components/layouts/ReportForm.vue';
 export default {
   name: 'ReportPage',
   components: { Header, ReportForm },
-
-  methods: {
-    submit() {
-      console.log('>', this.form);
-      alert('form is submit', this.form);
-    },
-  },
 };
 </script>
 
