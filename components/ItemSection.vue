@@ -26,6 +26,7 @@ export default {
     return {
       data: [],
       isLoading: false,
+      reload: null,
     };
   },
   created() {

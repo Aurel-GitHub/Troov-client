@@ -54,7 +54,7 @@
         type="submit"
         :disabled="!formValidator || $store.state.status !== 'loggedIn'"
         @click="createReport()"
-        >Connexion
+        >Enregistrer
       </b-button>
     </div>
   </b-container>
@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       form: {
-        where: '',
+        where: this.mode === 'update' ? 'sfsdfsddfsdfsdfsdfsdfsdf' : '',
         isLost: true,
         category: '',
         photo: 'https://picsum.photos/200/300',
@@ -102,7 +102,6 @@ export default {
         this.$store
           .dispatch('createItem', this.form)
           .then((response) => {
-            console.log('response item', response);
             this.$store.commit('setOneItem', response);
             this.isSubmit = false;
             this.$router.push('/');

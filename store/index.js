@@ -35,6 +35,10 @@ export const mutations = {
   setOneItem(state, item) {
     state.items.push(item);
   },
+  deleteOneItem(state, itemId) {
+    state.items = state.items.filter((el) => el._id !== itemId);
+    console.log('store', state.items);
+  },
 };
 export const actions = {
   createUser(state, userInfo) {
@@ -98,6 +102,19 @@ export const actions = {
             },
           }
         )
+        .then((res) => resolve(res))
+        .catch((error) => reject(error));
+    });
+  },
+  deleteItem(state, arg) {
+    console.log('arg delete', arg.itemId, arg.token);
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .$delete(`api/item/${arg.itemId}`, {
+          headers: {
+            Authorization: `Bearer ${arg.token}`,
+          },
+        })
         .then((res) => resolve(res))
         .catch((error) => reject(error));
     });

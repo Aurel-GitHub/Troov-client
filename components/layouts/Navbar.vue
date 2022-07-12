@@ -53,7 +53,6 @@ export default {
         .catch((error) => error);
       this.isDisconnect = true;
       this.$forceUpdate();
-      this.$router.push(`/`);
     },
     isDisconnect() {
       return true;
